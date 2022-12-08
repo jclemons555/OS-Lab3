@@ -40,10 +40,12 @@ int main(int argc, char **argv) {
       fprintf(stderr, "fork failed!");
       return 1;
     } else if (pid1 == 0) {
+        // run sort
       dup2(pipefd1[0], 0);
       close(pipefd1[1]);
       execvp("sort", sort_args);
     } else {
+        // run grep
       dup2(pipefd[0], 0);
       close(pipefd[1]);
       dup2(pipefd1[1], 1);
@@ -51,6 +53,7 @@ int main(int argc, char **argv) {
       execvp("grep", grep_args);
     }
   } else {
+      // run cat
     dup2(pipefd[1], 1);
     close(pipefd[0]);
     execvp("cat", cat_args);
