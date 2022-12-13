@@ -6,8 +6,21 @@
 #include <sys/wait.h>
 #include <stdlib.h>
 
+/**
+ * Executes the command "cat scores | grep Lakers".  In this quick-and-dirty
+ * implementation the parent doesn't wait for the child to finish and
+ * so the command prompt may reappear before the child terminates.
+ *
+ */
+
 int main(int argc, char **argv) {
-    
+  
+  if (argc < 2) {
+    printf("usage: ./pipes_proc3 grep_arg\n");
+    printf("please make sure that you provide a grep arg.\n");
+    return 0;
+  }
+  
   char* grep_arg = argv[1];
   
   int pipefd[2], pid;
